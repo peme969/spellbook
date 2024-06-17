@@ -52,13 +52,13 @@ def main():
 
 
 def login():
-    value = input("Please enter username: ")
+    value = input("Please enter username: ").lower()
     validation = session.query(User).filter(User.username.like(f"%{value}%")).first()
     if validation == None:
         val = input(
             f"User '{value}' not found. Would you like to create a new user? y/n: "
         )
-        if val in ["Y", "y", "yes", "Yes"]:
+        if val in ["y",'yes']:
             new_user()
         else:
             main()
@@ -274,9 +274,9 @@ def remove_spell(spell_selection):
     value = str(
         input(
             f"You've selected {spell_selection}. Are you sure you'd like to remove this spell? y/n: "
-        )
+        ).lower()
     )
-    if value in ["y", "Y", "Yes", "yes", "YES"]:
+    if value in ["y", "yes"]:
         spell_id = session.query(Spell).filter(Spell.name == spell_selection).first().id
         char_id = current_character.id
         spellbook_object = (
@@ -290,7 +290,7 @@ def remove_spell(spell_selection):
         print(f"{spell_selection} unlearned 🤯")
         time.sleep(1)
         open_character(current_character.name)
-    elif value in ["N", "n", "no", "No", "NO"]:
+    elif value in ["n", "no"]:
         edit_spells()
     else:
         print("Command not recognized")
